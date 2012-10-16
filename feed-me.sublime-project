@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": "/Users/windyarts/work/github/feed-me",
+            "folder_exclude_patterns": [".sass-cache"]
+		}
+	]
+}
