@@ -52,7 +52,7 @@
           <div class="row-fluid">
             <div class="span8">
               <div class="btn-group">
-                <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">麦当劳 <span class="caret"></span></button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">麦当劳 <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                   <li><a href="#">肯德基</a></li>
                   <li><a href="#">麦当劳</a></li>
@@ -61,14 +61,27 @@
                   <li><a href="#">吉野家</a></li>
                 </ul>
               </div>
-              <ul class="unstyled clearfix menu">
-                <li>香汁排骨</li>
-                <li>香汁排骨</li>
-                <li>香汁排骨</li>
-                <li>香汁排骨</li>
-                <li>香汁排骨</li>
-                <li>香汁排骨</li>
-              </ul>
+
+              <div class="accordion menu" data-bind="foreach: menu">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle"  href="#"
+                      data-bind="text: category, 
+                                 attr: { href: '#menu-category-' + $index() }" 
+                      data-toggle="collapse" 
+                      data-parent=".menu"></a>
+                  </div>
+                  <div class="accordion-body collapse" 
+                    data-bind="attr: { id: 'menu-category-' + $index() },
+                               css: { in: !$index() }">
+                    <div class="accordion-inner">
+                      <ul class="unstyled" data-bind="foreach: dishes">
+                        <li><span data-bind="text: name"></span><button class="btn btn-danger btn-mini">来一份</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="span4">
               <table class="table table-hover">
