@@ -17,26 +17,87 @@
         <script src="scripts/vendor/modernizr.min.js"></script>
     </head>
     <body>
-    <div class="container" style="margin-top:50px">
-        <div class="hero-unit">
-            <h1>Wotcha!</h1>
-            <p>You now have</p>
-            <ul>
-                <li>HTML5 Boilerplate</li>
-                <li>Twitter Bootstrap</li>
-                <li>Twitter Bootstrap plugins</li>
-                <li>RequireJS</li>
-            </ul>
-            <p>installed.</p>
-            <h3>Enjoy coding! - Yeoman</h3>
-        </div>
-    </div>
-
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
 
         <!-- Add your site or application content here -->
+
+        <div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+              <a class="brand" href="#"> 喂我! </a>
+              <ul class="nav">
+                <li><a href="#">看菜单</a></li>
+                <li><a href="#">晚餐计划</a></li>
+                <li><a href="#">吐槽</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+
+<!-- index        
+          <div class="hero-unit">
+            <div>
+              <h1>晚饭，是人生大事！</h1>
+              <p><br/>用这个可以自助定晚餐，方便自己，也方便阿姨</p>
+            </div>
+            <a class="btn btn-primary btn-large" href="#">走起！ »</a>
+          </div>
+-->
+
+<!-- menu
+-->
+          <div class="row-fluid">
+            <div class="span8">
+              <div class="btn-group">
+                <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">麦当劳 <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="#">肯德基</a></li>
+                  <li><a href="#">麦当劳</a></li>
+                  <li><a href="#">必胜客</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">吉野家</a></li>
+                </ul>
+              </div>
+              <ul class="unstyled clearfix menu">
+                <li>香汁排骨</li>
+                <li>香汁排骨</li>
+                <li>香汁排骨</li>
+                <li>香汁排骨</li>
+                <li>香汁排骨</li>
+                <li>香汁排骨</li>
+              </ul>
+            </div>
+            <div class="span4">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>名称</th>
+                    <th>餐厅</th>
+                    <th>份数</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>香汁排骨</td>
+                    <td>真功夫</td>
+                    <td>1</td>
+                    <td><button class="close">&times;</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+          <hr>
+          <div>© 豌豆实验室 2012</div>
+        </div>
+
+
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="scripts/vendor/jquery.min.js"><\/script>')</script>
@@ -44,12 +105,14 @@
         
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<!--
         <script>
             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
             s.parentNode.insertBefore(g,s)}(document,'script'));
         </script>
+-->
     
     <!-- build:js scripts/plugins.js -->
     <script src="scripts/vendor/bootstrap/bootstrap-affix.js"></script>

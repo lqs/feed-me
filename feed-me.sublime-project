@@ -3,7 +3,11 @@
 	[
 		{
 			"path": "/Users/windyarts/work/github/feed-me",
-            "folder_exclude_patterns": [".sass-cache"]
+        "folder_exclude_patterns": [".sass-cache"]
 		}
-	]
+	],
+  "settings":
+  {
+    "tab_size": 2
+  }
 }
