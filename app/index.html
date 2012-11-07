@@ -32,83 +32,27 @@
                 <li><a href="#">晚餐计划</a></li>
                 <li><a href="#">吐槽</a></li>
               </ul>
+              <a href="/login" class="btn btn-primary pull-right">SIGN IN</a>
             </div>
           </div>
         </div>
         <div class="container">
-
-<!-- index        
-          <div class="hero-unit">
-            <div>
-              <h1>晚饭，是人生大事！</h1>
-              <p><br/>用这个可以自助定晚餐，方便自己，也方便阿姨</p>
-            </div>
-            <a class="btn btn-primary btn-large" href="#">走起！ »</a>
-          </div>
--->
-
-<!-- menu
--->
           <div class="row-fluid">
-            <div class="span8">
-              <div class="btn-group">
-                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">麦当劳 <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">肯德基</a></li>
-                  <li><a href="#">麦当劳</a></li>
-                  <li><a href="#">必胜客</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">吉野家</a></li>
-                </ul>
-              </div>
-
-              <div class="accordion menu" data-bind="foreach: menu">
-                <div class="accordion-group">
-                  <div class="accordion-heading">
-                    <a class="accordion-toggle"  href="#"
-                      data-bind="text: category, 
-                                 attr: { href: '#menu-category-' + $index() }" 
-                      data-toggle="collapse" 
-                      data-parent=".menu"></a>
-                  </div>
-                  <div class="accordion-body collapse" 
-                    data-bind="attr: { id: 'menu-category-' + $index() },
-                               css: { in: !$index() }">
-                    <div class="accordion-inner">
-                      <ul class="unstyled" data-bind="foreach: dishes">
-                        <li><span data-bind="text: name"></span><button class="btn btn-danger btn-mini">来一份</button></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="span3">
+              <ul class="nav nav-pills nav-stacked menu-category">
+                <li><a href="">1</a></li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">4</a></li>
+                <li><a href="">5</a></li>
+              </ul>
             </div>
-            <div class="span4">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>名称</th>
-                    <th>餐厅</th>
-                    <th>份数</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>香汁排骨</td>
-                    <td>真功夫</td>
-                    <td>1</td>
-                    <td><button class="close">&times;</button></td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="span9">
+              <h1>Restaurant Name</h1>
             </div>
           </div>
-
-
-          <hr>
-          <div>© 豌豆实验室 2012</div>
         </div>
+
 
 
 
