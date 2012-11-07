@@ -11,6 +11,20 @@ var DishViewModel = function() {
   self.amount = Knockout.observable();
   self.price = Knockout.observable();
 
+  self.equals = function(dish) {
+    if (!(dish instanceof DishViewModel)) {
+      return false;
+    }
+    if (self.name() === dish.name() &&
+        self.rest() === dish.rest() &&
+        self.price() === dish.price()) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  };
+
   self.toJSON = function() {
     return {
       'name': self.name(),
@@ -19,6 +33,10 @@ var DishViewModel = function() {
       'price': self.price()
     };
   };
+};
+
+DishViewModel.filter = function(name, rest, dish) {
+  return dish.name() === name && dish.rest() === rest;
 };
 
 return DishViewModel;

@@ -1,7 +1,11 @@
 define([
-    'knockout'
+    'knockout',
+    'view-models/dish-view-model',
+    'underscore'
   ], function(
-    Knockout
+    Knockout,
+    DishViewModel,
+    _
   ) {
 'use strict';
 var OrderViewModel = function() {
@@ -13,6 +17,10 @@ var OrderViewModel = function() {
       return sum + (dish.price() * dish.amount());
     }, 0);
   });
+
+  self.addDish = function(name, rest) {
+    var dish = _.find(self.dishes(), );
+  };
 
   self.toJSON = function() {
     return {
