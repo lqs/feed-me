@@ -4,12 +4,18 @@ define([
     Knockout
   ) {
 'use strict';
-var DishViewModel = function() {
+var DishViewModel = function(name, rest, amount, price) {
   var self = this;
-  self.name = Knockout.observable();
-  self.rest = Knockout.observable();
-  self.amount = Knockout.observable();
-  self.price = Knockout.observable();
+  self.name = Knockout.observable(name || '');
+  self.rest = Knockout.observable(rest || '');
+  self.amount = Knockout.observable(amount || 1);
+  self.price = Knockout.observable(price || 0);
+
+  self.add = function(amount) {
+    amount = amount || 1;
+    self.amount(self.amount() + amount);
+    return self;
+  };
 
   self.equals = function(dish) {
     if (!(dish instanceof DishViewModel)) {

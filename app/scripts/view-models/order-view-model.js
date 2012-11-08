@@ -1,11 +1,17 @@
 define([
     'knockout',
     'view-models/dish-view-model',
-    'underscore'
+    'underscore',
+    'jquery',
+    'view-models/user-view-model',
+    'config'
   ], function(
     Knockout,
     DishViewModel,
-    _
+    _,
+    jQuery,
+    UserViewModel,
+    config
   ) {
 'use strict';
 var OrderViewModel = function() {
@@ -18,8 +24,22 @@ var OrderViewModel = function() {
     }, 0);
   });
 
-  self.addDish = function(name, rest) {
-    var dish = _.find(self.dishes(), );
+  self.addDish = function(name, rest, amount, price) {
+    var dish = _.find(self.dishes(), DishViewModel.filter.bind(null, name, rest));
+    if (dish) {
+      dish.add(amount || 1);
+    }
+    else {
+      self.dishes.push(new DishViewModel(name, rest, amount || 1, price));
+    }
+  };
+
+  self.save = function() {
+    saveTo(config.uri.ORDER);
+  };
+
+  self.saveDefault = function() {
+    saveTo(config.uri.DEFAULT);
   };
 
   self.toJSON = function() {
@@ -28,6 +48,21 @@ var OrderViewModel = function() {
         return dish.toJSON();
       })
     };
+  };
+
+  var saveTo = function(url) {
+    var defer = jQuery.Deferred();
+    if (!self.dishes().length) {
+      defer.reject(self, 'no dish');
+      return defer;
+    }
+    var data = self.toJSON();
+    data.id = UserViewModel.id();
+    jQuery.post(url, data).then(function() {
+      defer.resolve(self);
+    }, function() {
+      defer.reject(self, 'error');
+    });
   };
 };
 

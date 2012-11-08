@@ -10,7 +10,10 @@ define([
   return {
     'HOST': host,
     uri: {
-      'RESTAURANTS': host + '/api/all'
+      'RESTAURANTS': host + '/api/all',
+      'USER': host + '/api/user',
+      'ORDER': host + '/order',
+      'DEFAULT': host + '/api/default'
     },
 
     buildMenuURI: function(url) {
