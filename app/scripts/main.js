@@ -10,7 +10,7 @@ require.config({
   },
 
   paths: {
-    jquery: 'vendor/jquery.min',
+    jquery: 'vendor/jquery.fake',
     backbone: 'vendor/backbone',
     underscore: 'vendor/underscore',
     // knockout: 'vendor/knockout'

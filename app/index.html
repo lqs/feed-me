@@ -28,7 +28,12 @@
             <div class="container">
               <a class="brand" href="#"> 喂我! </a>
               <ul class="nav">
-                <li><a href="#">看菜单</a></li>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span data-bind="text: rests.selectedRestName"></span> <b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" data-bind="foreach: rests.list">
+                    <li><a tabindex="-1" href="#" data-bind="text: name, click: $root.rests.select"></a></li>
+                  </ul>
+                </li>
                 <li><a href="#">晚餐计划</a></li>
                 <li><a href="#">吐槽</a></li>
               </ul>
@@ -39,20 +44,27 @@
         <div class="container">
           <div class="row-fluid">
             <div class="span3">
-              <ul class="nav nav-pills nav-stacked menu-category">
-                <li><a href="">1</a></li>
-                <li><a href="">2</a></li>
-                <li><a href="">3</a></li>
-                <li><a href="">4</a></li>
-                <li><a href="">5</a></li>
+              <ul class="nav nav-pills nav-stacked menu-category"
+                data-bind="foreach: menu.categories">
+                <li><a href="" data-bind="text: $data, attr: { href: '#' + 'cat_' + $index() }"></a></li>
               </ul>
             </div>
-            <div class="span9">
-              <h1>Restaurant Name</h1>
+            <div class="span6">
+              <h1 data-bind="text: rests.selectedRestName"></h1>
+              <!-- ko foreach: menu.menu -->
+              <h2 data-bind="text: category, attr: { id: 'cat_' + $index() }"></h2>
+              <ul class="unstyled" data-bind="foreach: dishes">
+                <li><span data-bind="text: name"></span><button class="btn btn-danger btn-small" data-bind="click: $root.menu.order">来一份</button></li>
+              </ul>
+              <!-- /ko -->
+            </div>
+            <div class="span3">
+              <ul class="affix" data-bind="foreach: order.dishes">
+                <li data-bind="text: rest() + ',' + name() + ' * ' + amount()"></li>
+              </ul>
             </div>
           </div>
         </div>
-
 
 
 
@@ -72,19 +84,7 @@
 -->
     
     <!-- build:js scripts/plugins.js -->
-    <script src="scripts/vendor/bootstrap/bootstrap-affix.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-alert.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-dropdown.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-tooltip.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-modal.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-transition.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-button.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-popover.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-typeahead.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-carousel.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-scrollspy.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-collapse.js"></script>
-    <script src="scripts/vendor/bootstrap/bootstrap-tab.js"></script>
+    <script src="scripts/vendor/bootstrap.js"></script>
     <!-- endbuild -->
 
     <!-- build:js scripts/amd-app.js -->
