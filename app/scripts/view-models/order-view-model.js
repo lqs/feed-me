@@ -58,7 +58,7 @@ var OrderViewModel = function() {
     }
     var data = self.toJSON();
     data.id = UserViewModel.id();
-    jQuery.post(url, data).then(function() {
+    jQuery.post(url, { json: JSON.stringify(data)}).then(function() {
       defer.resolve(self);
     }, function() {
       defer.reject(self, 'error');

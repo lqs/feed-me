@@ -22,10 +22,13 @@ var MenuViewModel = function() {
       return group.category;
     });
   });
+  self.selectedCategory = Knockout.observable({
+    dishes: []
+  });
 
   self.fetch = function(url) {
-    return jQuery.get(config.buildMenuURI(url), self.menu.bind(self)).pipe(function() {
-      return self;
+    return jQuery.get(config.buildMenuURI(url)).pipe(function(data) {
+      return self.menu(data).selectedCategory(data[0]);
     });
   };
 
