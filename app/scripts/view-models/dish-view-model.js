@@ -17,6 +17,11 @@ var DishViewModel = function(name, rest, amount, price) {
     return self;
   };
 
+  self.minus = function() {
+    self.amount(self.amount() - 1);
+    return self;
+  };
+
   self.equals = function(dish) {
     if (!(dish instanceof DishViewModel)) {
       return false;

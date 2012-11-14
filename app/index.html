@@ -42,34 +42,53 @@
               </div>
               <ul class="nav">
                 <li><a href="">吐个槽</a></li>
-                <li><a href="">神马</a></li>
               </ul>
-              <div class="pull-right" data-bind="text: 'Wel. ' + user.name()"></div>
-              <!-- ko ifnot: user.online -->
-              <a href="http://fan.wandoulabs.com/login" class="btn btn-primary pull-right">SIGN IN</a>
-              <!-- /ko -->
+              <ul class="nav pull-right">
+                <li><a data-toggle="modal" href="#userinfo"><i class="icon-user"></i> <span data-bind="text: user.name"></span></a></li>
+              </ul>
             </div>
           </div>
         </div>
-        <div class="container" data-bind="if: user.nameAbsent">
-          来个名字亲
-          <input type="text" placeholder="来个名字亲">
-          <button class="btn-primary" type="button" data-bind="click: function(data, e) { var name = $(e.currentTarget).prev('input').val(); if (name) {data.user.save(name)} console.log(this);}">OK</button>
-        </div>
-        <div class="container" data-bind="if: user.ready">
+    
+        <div class="container">
           <div class="row-fluid">
-            <div class="span3">
+            <div class="span7">
+              <table class="table table-hover menu">
+<!--                 <thead>
+                  <tr>
+                    <th></th>
+                    <th>名称</th>
+                    <th>价格</th>
+                  </tr>
+                </thead>
+ -->                <tbody data-bind="foreach: menu.selectedCategory().dishes">
+                  <tr data-bind="click: $root.menu.order">
+                    <td><button class="btn btn-primary btn-small">+1</button></td>
+                    <td><span data-bind="text: name"></span></td>
+                    <td><strong data-bind="text: Math.floor(price / 100)"></strong>.<span style="opacity: 0.5;" data-bind="text: (price % 100 + 100).toString().slice(1)"></span> 元</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="span6">
-              <!-- ko foreach: menu.selectedCategory().dishes -->
-              <button class="btn btn-large" style="margin:10px;" data-bind="text:name, click: $root.menu.order">来一份</button></li>
-              <!-- /ko -->
-            </div>
-            <div class="span3" data-bind="if: order().dishes().length">
-              <div class="affix">
-                <ul data-bind="foreach: order().dishes">
-                  <li data-bind="text: rest() + ',' + name() + ' * ' + amount()"></li>
-                </ul>
+            <div class="span5">
+              <div class="affix" data-bind="if: order().dishes().length">
+                <table class="table">
+                  <caption>订单</caption>
+                  <thead>
+                    <tr>
+                      <th>餐厅</th>
+                      <th>菜品</th>
+                      <th>份数</th>
+                    </tr>
+                  </thead>
+                  <tbody data-bind="foreach: order().dishes">
+                    <tr>
+                      <td data-bind="text: rest"></td>
+                      <td data-bind="text: name"></td>
+                      <td><i class="icon-minus-sign" data-bind="click: $root.order().removeDish"></i> <span data-bind="text: amount"></span> <i class="icon-plus-sign" data-bind="click: $root.order().addDish"></i></td>
+                    </tr>
+                  </tbody>
+                </table>
                 <div class="btn-group">
                   <a class="btn btn-primary" href="#" data-bind="click: makeOrder">下单</a>
                   <a class="btn btn-danger" href="#" data-bind="click: newOrder">清空</a>
@@ -81,6 +100,33 @@
         </div>
 
 
+        
+        <div class="modal hide fade" id="userinfo" data-backdrop="static" data-keyboard="false" data-show="false" data-bind="attr: { 'data-backdrop': user.nameAbsent() ? 'static' : 'true', 'data-keyboard': user.nameAbsent() ? 'false' : 'true' }">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal" data-bind="visible: !user.nameAbsent()">&times;</a>
+            <h3>请输入中文名（要阿姨认识的）</h3>
+          </div>
+          <div class="modal-body">
+            <input id="user-display-name" type="text" placeholder="来个名字亲">
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-bind="click: function(data, e) { var name = $('#user-display-name').val(); if (name) {data.user.save(name)} console.log(this);}">确定</a>
+            <a href="#" class="btn" data-dismiss="modal" data-bind="visible: !user.nameAbsent()">取消</a>
+          </div>
+        </div>
+        
+        
+        <div class="welcome" data-bind="css: { fadeout: loaded}">
+          <div>
+            <div class="large-logo"></div>
+            <h2>吃饭了，<span><script>document.write(localStorage.getItem('user-display-name') || '豌豆');</script></span></h2>
+            <div class="progress progress-striped active" data-bind="visible: !needSignIn()">
+              <div class="bar" style="width: 100%;"></div>
+            </div>
+            <a href="http://fan.wandoulabs.com/login" class="btn btn-primary btn-large off" data-bind="css: { off: !needSignIn() }"><i class="icon-user icon-white"></i> Google Account 登录</a>
+          </div>
+        </div>
+        
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="scripts/vendor/jquery.min.js"><\/script>')</script>

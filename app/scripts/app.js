@@ -21,6 +21,11 @@ define([
 var rests = new RestaurantsViewModel();
 var menu = new MenuViewModel();
 var order = new OrderViewModel();
+var userInfoModal = jQuery('#userinfo');
+
+UserViewModel.nameAbsent.subscribe(function(value) {
+  userInfoModal.modal(value ? 'show' : 'hide');
+});
 
 rests.on('change-menu', function(newURL) {
   menu.fetch(newURL);
@@ -31,10 +36,20 @@ menu.on('order', function(name, price) {
 });
 
 // Take off!!
-UserViewModel.fetch();
-rests.fetch();
+UserViewModel.fetch()
+  .pipe(function() {
+    return rests.fetch();
+  },function() {
+    bindingContext.needSignIn(true);
+  }).
+  done(function() {
+    bindingContext.loaded(true);
+  });
+
 
 var bindingContext = {
+  loaded: Knockout.observable(false),
+  needSignIn: Knockout.observable(false),
   user: UserViewModel,
   menu: menu,
   rests: rests,
@@ -50,5 +65,5 @@ var bindingContext = {
 
 Knockout.applyBindings(bindingContext);
 
-
+window.user = UserViewModel;
 });

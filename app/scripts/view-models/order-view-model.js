@@ -25,12 +25,24 @@ var OrderViewModel = function() {
   });
 
   self.addDish = function(name, rest, amount, price) {
-    var dish = _.find(self.dishes(), DishViewModel.filter.bind(null, name, rest));
+    var dish;
+    if (name instanceof DishViewModel) {
+      dish = name;
+    }
+    else {
+      dish = _.find(self.dishes(), DishViewModel.filter.bind(null, name, rest));
+    }
     if (dish) {
       dish.add(amount || 1);
     }
     else {
       self.dishes.push(new DishViewModel(name, rest, amount || 1, price));
+    }
+  };
+
+  self.removeDish = function(dish) {
+    if (!dish.minus().amount()) {
+      self.dishes.remove(dish);
     }
   };
 

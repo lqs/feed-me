@@ -12,20 +12,22 @@ var UserViewModel = function() {
   var self = this;
   self.id = Knockout.observable();
   self.name = Knockout.observable();
+  self.name.subscribe(function(value) {
+    localStorage.setItem('user-display-name', value);
+  });
   self.online = Knockout.computed(function() {
     return !!self.id();
   });
   self.nameAbsent = Knockout.computed(function() {
-    return Knockout.utils.unwrapObservable(self.online) && !Knockout.utils.unwrapObservable(self.name);
+    return self.online() && !self.name();
   });
   self.ready = Knockout.computed(function() {
-    return !!(Knockout.utils.unwrapObservable(self.id) && 
-              Knockout.utils.unwrapObservable(self.name));
+    return !!(self.id() && self.name());
   });
 
   self.fetch = function() {
     return jQuery.get(config.uri.USER, function(data) {
-      self.id(data.email).name(data.name);
+      self.name(data.name).id(data.email);
     }).pipe(function() {
       return self;
     });
