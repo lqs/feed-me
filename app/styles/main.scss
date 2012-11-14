@@ -81,17 +81,37 @@ body {
     }
     .progress {
       margin: 0 auto;
-      width: 250px;
+      width: 200px;
+      @include box-shadow(0 0 0 2px #ccc);
     }
     .btn {
       margin-left: auto;
       margin-right: auto;
       display: block;
-      width: 200px;
+      width: 180px;
       @include transition(opacity 0.2s);
       &.off {
         opacity: 0;
+        -webkit-animation-name: none;
       }
+      @include translateZ(0);
+      -webkit-animation: glowing;
+      -webkit-animation-duration: 2s;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: ease-in-out;
+      -webkit-animation-direction: alternate;
     }
   }
+}
+
+@-webkit-keyframes glowing {
+  0% {
+    box-shadow: 0 0 20px 0 rgba(0, 110, 204, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 20px 0 rgba(0, 110, 204, 0.9);
+  }
+  // 100% {
+  //   box-shadow: 0 0 15px 0 rgba(0, 110, 204, 0.4);
+  // }
 }
