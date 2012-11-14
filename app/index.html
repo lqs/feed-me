@@ -119,11 +119,13 @@
         <div class="welcome" data-bind="css: { fadeout: loaded}">
           <div>
             <div class="large-logo"></div>
-            <h2>吃饭了，<span><script>document.write(localStorage.getItem('user-display-name') || '豌豆');</script></span></h2>
-            <div class="progress progress-striped active" data-bind="visible: !needSignIn()">
-              <div class="bar" style="width: 100%;"></div>
+            <h2>喂<span><script>document.write(localStorage.getItem('user-display-name') || '豌豆');</script></span>！</h2>
+            <div class="transform-container">
+              <div class="btn btn-primary btn-large loading" data-bind="css: { off: needSignIn }, text: loaded() ? '订饭了，' + user.name() : 'LOADING...'">LOADING...</div>
+              <a href="http://fan.wandoulabs.com/login" class="btn btn-primary btn-large signin off" data-bind="css: { off: !needSignIn() }">
+                <i class="icon-user icon-white"></i> Google Account 登录
+              </a>
             </div>
-            <a href="http://fan.wandoulabs.com/login" class="btn btn-primary btn-large off" data-bind="css: { off: !needSignIn() }"><i class="icon-user icon-white"></i> Google Account 登录</a>
           </div>
         </div>
         

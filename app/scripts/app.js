@@ -35,16 +35,26 @@ menu.on('order', function(name, price) {
   order.addDish(name, rests.selectedRestName(), 1, price);
 });
 
+jQuery(document.body)
+  .ajaxStart(function() {
+    this.classList.add('loading');
+  })
+  .ajaxStop(function() {
+    this.classList.remove('loading');
+  });
+
 // Take off!!
 UserViewModel.fetch()
   .pipe(function() {
     return rests.fetch();
   },function() {
-    bindingContext.needSignIn(true);
+    // bindingContext.needSignIn(true);
   }).
   done(function() {
     bindingContext.loaded(true);
   });
+
+rests.fetch();
 
 
 var bindingContext = {
@@ -66,4 +76,5 @@ var bindingContext = {
 Knockout.applyBindings(bindingContext);
 
 window.user = UserViewModel;
+window.bc = bindingContext;
 });
