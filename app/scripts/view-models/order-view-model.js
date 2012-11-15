@@ -47,11 +47,11 @@ var OrderViewModel = function() {
   };
 
   self.save = function() {
-    saveTo(config.uri.ORDER);
+    return saveTo(config.uri.ORDER);
   };
 
   self.saveDefault = function() {
-    saveTo(config.uri.DEFAULT);
+    return saveTo(config.uri.DEFAULT);
   };
 
   self.toJSON = function() {
@@ -75,6 +75,7 @@ var OrderViewModel = function() {
     }, function() {
       defer.reject(self, 'error');
     });
+    return defer;
   };
 };
 

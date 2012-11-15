@@ -1,24 +1,45 @@
 @import "compass";
-@import "compass_twitter_bootstrap";
+@import "compass_twitter_bootstrap_awesome";
+
 
 body {
   padding-top: 60px;
 }
-body.loading .brand {
-  -webkit-animation: fading;
-  -webkit-animation-duration: 1s;
+body.loading .indicator {
+  // -webkit-animation: rotating;
+  opacity: 0.8;
+}
+.indicator {
+  -webkit-animation: rotating;
+  -webkit-animation-duration: 0.8s;
   -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-direction: alternate;
+  -webkit-animation-timing-function: linear;
+  opacity: 0;
+  @include transition(opacity 0.1s);
 }
 .brand {
   background: image-url('dinner_72.png') 20px center no-repeat;
   background-size: 32px;
   text-indent: 40px;
+  .indicator {
+    position: relative;
+    top: -2px;
+    vertical-align: middle;
+  }
 }
 .navbar {
   cursor: default;
 }
+
+.nav-container {
+  // @include box-sizing(border-box);
+  // width: 220px;
+  padding:8px 0;
+  .nav-header {
+    font-size: 13px;
+  }
+}
+
 .menu {
   // &:hover tr:not(:hover) > td:nth-last-child(-n+2) {
   //   opacity: 0.5;
@@ -48,6 +69,21 @@ body.loading .brand {
   }
 }
 
+.notice {
+  position: fixed;
+  top: 60px;
+  left: 30%;
+  right: 30%;
+  .alert {
+    box-shadow: 0 3px 10px #999;
+    @include transition(all 0.3s);
+    @include scale(0);
+    &.on {
+      @include scale(1);
+    }
+  }
+}
+
 .welcome {
   position: fixed;
   left: 0;
@@ -58,7 +94,7 @@ body.loading .brand {
   @include transition-property(opacity, transform);
   @include transition-duration(0.5s);
   @include transition-timing-function(ease-in-out, ease-in);
-  @include transition-delay(1s, 1.1s);
+  @include transition-delay(1s, 1.2s);
   @include background-image(linear-gradient(top, #ccc 30%,#ffffff 70%));
 
   &.fadeout {
@@ -87,49 +123,106 @@ body.loading .brand {
       text-align: center;
       margin-bottom: 20px;
     }
-    
+     
     .transform-container {
       -webkit-perspective: 304px;
-      -webkit-perspective-origin-y: 25%;
+      height: 38px;
+      position: relative;
     }
     .btn {
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-      width: 180px;
-      @include transition(-webkit-transform 0.5s);
+      $height: 38px;
+      position: absolute;
+      width: 200px;
+      top: 0;
+      left: 50%;
+      margin-left: -115px;
+      line-height: 18px;
+      @include transition(-webkit-transform 0.3s ease-out);
       -webkit-transform-origin-z: -19px;
-      position: relative;
-      &.off {
-        -webkit-animation-name: none;
+      -webkit-backface-visibility: hidden;
+
+      -webkit-animation: glowing;
+      -webkit-animation-duration: 2s;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: ease-in-out;
+      -webkit-animation-direction: alternate;
+
+
+      &.greeting {
+        cursor: default;
       }
       &.loading {
         cursor: default;
-        -webkit-animation: loading;
-        -webkit-animation-duration: 1s;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-timing-function: ease-out;
-        -webkit-animation-direction: alternate;
-        z-index: 1;
-        &.off {
-          z-index: auto;
+        // -webkit-animation: loading;
+        // -webkit-animation-duration: 1s;
+        // -webkit-animation-iteration-count: infinite;
+        // -webkit-animation-timing-function: ease-out;
+        // -webkit-animation-direction: alternate;
+      }
+      &.signin {
+      }
+    }
+
+    .transform-container {
+      .greeting, .signin {
+        opacity: 0;
+      }
+      &.loading, &.greeting, &.signin {
+        .greeting, .signin {
+          opacity: 1;
+        }
+      }
+      &, &.loading {
+        .greeting {
           -webkit-transform: rotateX(90deg);
+          z-index: 1;
+        }
+        .loading {
+          z-index: 3;
+        }
+        .signin {
+          -webkit-transform: rotateX(-90deg);
+          z-index: 2;
+        }
+      }
+      &.greeting {
+        .greeting {
+          -webkit-transform: rotateX(0deg);
+          z-index: 3;
+        }
+        .loading {
+          -webkit-transform: rotateX(-90deg);
+          z-index: 2;
+        }
+        .signin {
+          -webkit-transform: rotateX(-180deg);
+          z-index: 1;
         }
       }
       &.signin {
-        -webkit-animation: glowing;
-        -webkit-animation-duration: 2s;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-timing-function: ease-out;
-        -webkit-animation-direction: alternate;
-        -webkit-transform: translateY(-100%) rotateX(0);
-        z-index: 1;
-        &.off {
-          -webkit-transform: translateY(-100%) rotateX(-90deg);
-          z-index: auto;
+        .greeting {
+          -webkit-transform: rotateX(180deg);
+          z-index: 1;
+        }
+        .loading {
+          -webkit-transform: rotateX(90deg);
+          z-index: 2;
+        }
+        .signin {
+          -webkit-transform: rotateX(0deg);
+          z-index: 3;
         }
       }
     }
+  }
+}
+
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
   }
 }
 
@@ -154,6 +247,6 @@ body.loading .brand {
     box-shadow: 0 0 20px 0 rgba(0, 110, 204, 0.4);
   }
   100% {
-    box-shadow: 0 0 20px 0 rgba(0, 110, 204, 0.9);
+    box-shadow: 0 0 20px 0 rgba(0, 110, 204, 1);
   }
 }
