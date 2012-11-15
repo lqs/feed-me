@@ -27,7 +27,7 @@
         <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container">
-              <a class="brand" href="#" title="专为豌豆吃饭打造" rel="tooltip" data-placement="bottom"> 喂<span data-bind="text: (user.name() || '豌豆')"></span> <i class="indicator icon-refresh"></i></a>
+              <a class="brand" href="#" title="专为豌豆吃饭打造" rel="tooltip" data-placement="bottom"> 喂<span data-bind="text: (user.name() || '豌豆')"></span> <span class="label">ever-alpha</span> <i class="indicator icon-refresh"></i></a>
 <!--               <div class="btn-group pull-left" data-bind="with: rests">
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">餐厅：<span data-bind="text: selectedRestName"></span> <span class="caret"></span></a>
                 <ul class="dropdown-menu" data-bind="foreach: list">
@@ -41,14 +41,14 @@
                 </ul>
               </div>
                -->            
-              <ul class="nav pull-right" style="padding-right: 10px;font-size:20px;">
+              <ul class="nav pull-right actions" style="padding-right: 10px;">
                 <li class="divider-vertical"></li>
-                <li><a href="#" rel="tooltip" title="吐个槽" onclick="return !!bc.alert('爱吃吃，不吃饿着！');"><i class="icon-comment icon-large"></i></a></li>
-                <li><a data-toggle="modal" rel="tooltip" title="修改豌豆信息" href="#userinfo"><i class="icon-cog icon-large"></i></a></li>
-                <li><a href="http://fan.wandoulabs.com/logout" rel="tooltip" title="退出" data-bind="click: confirmSignout"><i class="icon-signout icon-large"></i></a></li>
+                <li><a href="#" rel="tooltip" title="吐个槽" onclick="return !!bc.alert('爱吃吃，不吃饿着！');"><i class="icon-comment"></i></a></li>
+                <li><a data-toggle="modal" rel="tooltip" title="修改豌豆信息" href="#userinfo"><i class="icon-user"></i></a></li>
+                <li><a href="http://fan.wandoulabs.com/logout" rel="tooltip" title="退出" data-bind="click: confirmSignout"><i class="icon-signout"></i></a></li>
               </ul>
-              <form class="navbar-search pull-right">
-                <input type="text" class="search-query" placeholder="找菜？" onfocus="bc.alert('抱歉，假的。。。');this.blur();">
+              <form class="navbar-search pull-right" data-bind="submit: search.addDish">
+                <input id="search-dish" type="text" class="search-query" data-provide="typeahead" data-bind="attr: { placeholder: '找 ' + rests.selectedRestName() + ' 的菜？'}" rel="tooltip" data-placement="left" title="再次回车加入订单" data-trigger="manual">
               </form>
             </div>
           </div>
@@ -59,18 +59,18 @@
             <div class="span3">
               <div class="well nav-container">
                 <ul class="nav nav-list">
-                  <li class="nav-header"><i class="icon-map-marker"></i>餐厅</li>
+                  <li class="nav-header"><i class="icon-map-marker"></i> 餐厅</li>
                   <!-- ko foreach: rests.list -->
                   <li data-bind="css: {active: ($root.rests.selectedRest() === $data)}, click: $root.rests.select"><a href="#" data-bind="text: name"></a></li>
                   <!-- /ko -->
-                  <li class="nav-header"><i class="icon-book"></i>菜单 <i class="indicator icon-refresh"></i></li>
+                  <li class="nav-header"><i class="icon-book"></i> 菜单 <i class="indicator icon-refresh"></i></li>
                   <!-- ko foreach: menu.menu -->
                   <li data-bind="css: {active: $root.menu.selectedCategory() === $data}, click: $root.menu.selectedCategory"><a href="#" data-bind="text: category"></a></li>
                   <!-- /ko -->
                 </ul>
               </div>
             </div>
-            <div class="span6">
+            <div class="span5">
               <table class="table table-hover menu">
                 <tbody data-bind="foreach: menu.selectedCategory().dishes">
                   <tr data-bind="click: $root.menu.order">
@@ -81,10 +81,14 @@
                 </tbody>
               </table>
             </div>
-            <div class="span3">
-              <div class="affix" data-bind="if: order().dishes().length">
-                <table class="table">
-                  <caption>订单</caption>
+            <div class="span4">
+              <div class="order affix">
+                <div class="btn-group">
+                  <a rel="tooltip" title="立即下单，买就送！" class="btn btn-primary" href="#" data-bind="click: makeOrder">下单</a>
+                  <a rel="tooltip" title="减肥，不吃了！" class="btn btn-warning" href="#" data-bind="click: newOrder">清空</a>
+                  <a rel="tooltip" title="每天都吃一样的不会无聊吗？" class="btn" href="#" data-bind="click: order().saveDefault">默认</a>
+                </div>
+                <table class="table table-striped"  data-bind="visible: order().dishes().length">
                   <thead>
                     <tr>
                       <th>餐厅</th>
@@ -96,24 +100,20 @@
                     <tr>
                       <td data-bind="text: rest"></td>
                       <td data-bind="text: name"></td>
-                      <td><i class="icon-minus-sign" data-bind="click: $root.order().removeDish"></i> <span data-bind="text: amount"></span> <i class="icon-plus-sign" data-bind="click: $root.order().addDish"></i></td>
+                      <td><a class="btn" data-bind="click: $root.order().removeDish"><i class="icon-minus"></i></a> <span data-bind="text: amount"></span> <a class="btn" data-bind="click: $root.order().addDish"><i class="icon-plus"></i></a></td>
                     </tr>
                   </tbody>
                 </table>
-                <div class="btn-group">
-                  <a class="btn btn-primary" href="#" data-bind="click: makeOrder">下单</a>
-                  <a class="btn btn-danger" href="#" data-bind="click: newOrder">清空</a>
-                  <a class="btn" href="#" data-bind="click: order().saveDefault">默认</a>
-                </div>
+                <div class="alert alert-info" style="margin:20px 0;text-align:center;" data-bind="visible: !order().dishes().length"><i class="icon-arrow-left icon-large"></i> 快去点餐吧 :)</div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="notice" data-bind="visible: alert.message, if: alert.message">
-          <div class="alert alert-info" data-bind="delayCss: { on: true }">
+          <div class="alert" data-bind="delayCss: { on: true }">
             <button type="button" class="close" data-dismiss="alert" data-bind="click: alert.clear">×</button>
-            <strong>提示：</strong><span data-bind="text: alert.message"></span>
+            <i class="icon-info-sign icon-large"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong data-bind="text: alert.message"></strong>
           </div>
         </div>
         
@@ -148,7 +148,7 @@
               <div class="btn btn-primary btn-large greeting" data-bind="text: '订饭了，' + user.name()"></div>
               <div class="btn btn-primary btn-large loading">LOADING...</div>
               <a href="http://fan.wandoulabs.com/login" class="btn btn-primary btn-large signin">
-                <i class="icon-google-plus-sign icon-white"></i> Google Account 登录
+                <i class="icon-google-plus-sign icon-large icon-white"></i> Google Account 登录
               </a>
             </div>
           </div>

@@ -22,6 +22,16 @@ var MenuViewModel = function() {
       return group.category;
     });
   });
+  self.dishes = Knockout.computed(function() {
+    var dishes = [];
+    self.menu().forEach(function(group) {
+      group.dishes.forEach(function(dish) {
+        dishes.push(dish.name);  
+      });
+    });
+    // return JSON.stringify(dishes);
+    return dishes;
+  });
   self.selectedCategory = Knockout.observable({
     dishes: []
   });

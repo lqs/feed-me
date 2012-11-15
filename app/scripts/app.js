@@ -7,7 +7,8 @@ define([
     'view-models/order-view-model',
     'view-models/user-view-model',
     'view-models/alert-view-model',
-    'bindings/delay-css'
+    'bindings/delay-css',
+    'underscore'
   ], function(
     jQuery,
     Knockout,
@@ -16,8 +17,9 @@ define([
     MessageCenter,
     OrderViewModel,
     UserViewModel,
-    Alert,
-    BindingDelayCss
+    alert,
+    BindingDelayCss,
+    _
   ) {
 'use strict';
 
@@ -47,9 +49,35 @@ jQuery(document.body)
     this.classList.remove('loading');
   })
   .tooltip({
-    selector: "a[rel=tooltip]",
+    selector: 'a[rel=tooltip]',
     placement: 'bottom'
   });
+
+var $search = jQuery('#search-dish');
+var search = {
+  addDish: function() {
+    var dish;
+    var name = $search.val();
+    _.any(menu.menu(), function(group) {
+      return (dish = _.find(group.dishes, function(dish) {
+        return dish.name === name;
+      }));
+    });
+    if (dish) {
+      order.addDish(dish.name, rests.selectedRestName(), 1, dish.price);
+      $search.val('').tooltip('hide');
+    }
+  }
+};
+$search.typeahead({
+  source: function() {
+    return menu.dishes();
+  },
+  updater: function(item) {
+    $search.tooltip('show');
+    return item;
+  }
+}).tooltip().on('blur', function() { $search.tooltip('hide'); });
 
 // Take off!!
 UserViewModel.fetch()
@@ -72,21 +100,27 @@ var bindingContext = {
   user: UserViewModel,
   menu: menu,
   rests: rests,
-  alert: Alert,
+  alert: alert,
+  search: search,
   order: Knockout.observable(order),
   newOrder: function() {
     this.order(order = new OrderViewModel());
   },
   makeOrder: function() {
     this.order().save().done(function() {
-      Alert.message('订单保存成功！');
+      alert.message('订单保存成功！');
       this.newOrder();
-    }.bind(this)).fail(function() {
-      Alert.message('订单保存失败，再试一次？');
+    }.bind(this)).fail(function(o, msg) {
+      if (msg === 'no dish') {
+        alert('淡定。。。还没点呢 -_-|||');
+      }
+      else {
+        alert.message('订单保存失败，再试一次？');
+      }
     });
   },
   confirmSignout: function(data, e) {
-    if (!window.confirm('确定退出么？')) {
+    if (!window.confirm('真心不吃了么？')) {
       e.preventDefault();
     }
   }
@@ -96,6 +130,10 @@ bindingContext.welcomeStatus = Knockout.computed(function() {
 }, bindingContext);
 
 Knockout.applyBindings(bindingContext);
+
+_.delay(function() {
+  alert('5分钟了还没选好。。。你也和小明一样有选择恐惧症吗？');
+}, 5 * 60 * 1000);
 
 window.user = UserViewModel;
 window.bc = bindingContext;
