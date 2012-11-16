@@ -107,22 +107,22 @@ var bindingContext = {
     this.order(order = new OrderViewModel());
   },
   makeOrder: function() {
-    this.order().save().done(function() {
-      alert.message('订单保存成功！');
-      this.newOrder();
-    }.bind(this)).fail(function(o, msg) {
-      if (msg === 'no dish') {
-        alert('淡定。。。还没点呢 -_-|||');
-      }
-      else {
-        alert.message('订单保存失败，再试一次？');
-      }
-    });
+    if (window.confirm('本单总计 ' + (order.totalPrice() / 100).toFixed(2) + '元，吃不了崔阿姨搞死你哦，确定要下单吗？')) {
+      this.order().save().done(function() {
+        alert.message('订单保存成功！');
+        this.newOrder();
+      }.bind(this)).fail(function(o, msg) {
+        if (msg === 'no dish') {
+          alert('淡定。。。还没点呢 -_-|||');
+        }
+        else {
+          alert.message('订单保存失败，再试一次？');
+        }
+      });
+    }
   },
   confirmSignout: function(data, e) {
-    if (!window.confirm('真心不吃了么？')) {
-      e.preventDefault();
-    }
+    return window.confirm('真心不吃了么？');
   }
 };
 bindingContext.welcomeStatus = Knockout.computed(function() {
