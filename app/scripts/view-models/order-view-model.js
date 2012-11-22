@@ -72,8 +72,13 @@ var OrderViewModel = function() {
     data.id = UserViewModel.id();
     jQuery.post(url, { json: JSON.stringify(data)}).then(function() {
       defer.resolve(self);
-    }, function() {
-      defer.reject(self, 'error');
+    }, function(jqXHR) {
+      if (jqXHR.status === 403) {
+        defer.reject(self, 'overtime');
+      }
+      else {
+        defer.reject(self, 'error');
+      }
     });
     return defer;
   };

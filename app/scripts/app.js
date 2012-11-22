@@ -115,6 +115,9 @@ var bindingContext = {
         if (msg === 'no dish') {
           alert('淡定。。。还没点呢 -_-|||');
         }
+        else if (msg === 'overtime') {
+          alert.message('啊哦，已经过了两点了，订餐失败，还是去找阿姨吧~');
+        }
         else {
           alert.message('订单保存失败，再试一次？');
         }

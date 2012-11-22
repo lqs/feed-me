@@ -178,6 +178,11 @@ module.exports = function( grunt ) {
 
     min: {
       dist: ''
+    },
+
+    server: {
+      port: 0xDAD,
+      // hostname: 'fan.wandoulabs.com'
     }
   });
 
