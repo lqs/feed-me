@@ -1,17 +1,20 @@
 define([
     'knockout',
     'jquery',
-    'config'
+    'config',
+    'knockback'
   ], function(
     Knockout,
     jQuery,
-    config
+    config,
+    kb
   ) {
 'use strict';
-var UserViewModel = function() {
+
+var UserViewModel = function(model) {
   var self = this;
-  self.id = Knockout.observable();
-  self.name = Knockout.observable();
+  self.id = kb.observable(model, 'email');
+  self.name = kb.observable(model, 'name');
   self.name.subscribe(function(value) {
     localStorage.setItem('user-display-name', value);
   });
@@ -26,9 +29,7 @@ var UserViewModel = function() {
   });
 
   self.fetch = function() {
-    return jQuery.get(config.uri.USER, function(data) {
-      self.name(data.name).id(data.email);
-    }).pipe(function() {
+    return model.fetch().pipe(function() {
       return self;
     });
   };
@@ -43,6 +44,6 @@ var UserViewModel = function() {
   };
 };
 
-return new UserViewModel();
+return UserViewModel;
 
 });

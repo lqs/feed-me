@@ -9,7 +9,8 @@ define([
     'view-models/alert-view-model',
     'bindings/delay-css',
     'underscore',
-    'knockback'
+    'knockback',
+    'models/user'
   ], function(
     jQuery,
     Knockout,
@@ -21,7 +22,8 @@ define([
     alert,
     BindingDelayCss,
     _,
-    kb
+    kb,
+    User
   ) {
 'use strict';
 
@@ -30,6 +32,9 @@ var rests = new RestaurantsViewModel();
 var menu = new MenuViewModel();
 var order = new OrderViewModel();
 var userInfoModal = jQuery('#userinfo');
+var user = new User();
+UserViewModel = new UserViewModel(user);
+
 
 UserViewModel.nameAbsent.subscribe(function(value) {
   userInfoModal.modal(value ? 'show' : 'hide');
@@ -148,5 +153,6 @@ _.delay(function() {
 
 window.user = UserViewModel;
 window.bc = bindingContext;
+
 
 });
