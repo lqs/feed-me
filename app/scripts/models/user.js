@@ -7,11 +7,13 @@ define([
   ) {
 'use strict';
 
-var User = Backbone.Model.extend({
+return Backbone.Model.extend({
+  defaults: {
+    'email': '',
+    'name': ''
+  },
   idAttribute: 'email',
   url: config.uri.USER
 });
-
-return User;
 
 });

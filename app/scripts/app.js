@@ -10,7 +10,8 @@ define([
     'bindings/delay-css',
     'underscore',
     'knockback',
-    'models/user'
+    'models/user',
+    'backbone'
   ], function(
     jQuery,
     Knockout,
@@ -23,20 +24,32 @@ define([
     BindingDelayCss,
     _,
     kb,
-    User
+    User,
+    Backbone
   ) {
 'use strict';
+
+// Global Configurations
+Backbone.emulateHTTP = true;
+
+// Init Models
+var user = new User();
+
 
 // Data logic.
 var rests = new RestaurantsViewModel();
 var menu = new MenuViewModel();
 var order = new OrderViewModel();
 var userInfoModal = jQuery('#userinfo');
-var user = new User();
-UserViewModel = new UserViewModel(user);
+var userVM = new UserViewModel(user);
 
 
-UserViewModel.nameAbsent.subscribe(function(value) {
+user.on('change:name', function(model, value) {
+  localStorage.setItem('user-display-name', value);
+});
+
+userVM.nameAbsent.subscribe(function(value) {
+debugger;
   userInfoModal.modal(value ? 'show' : 'hide');
 });
 
@@ -87,7 +100,7 @@ $search.typeahead({
 }).tooltip().on('blur', function() { $search.tooltip('hide'); });
 
 // Take off!!
-UserViewModel.fetch()
+userVM.fetch()
   .pipe(function() {
     return rests.fetch();
   },function() {
@@ -98,6 +111,7 @@ UserViewModel.fetch()
     bindingContext.loaded(true);
     /* * * DON'T EDIT BELOW THIS LINE * * */
     _.delay(function() {
+      return;
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + 'feedwandou' + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
@@ -110,7 +124,7 @@ UserViewModel.fetch()
 var bindingContext = {
   loaded: Knockout.observable(false),
   needSignIn: Knockout.observable(false),
-  user: UserViewModel,
+  user: userVM,
   menu: menu,
   rests: rests,
   alert: alert,
@@ -137,7 +151,7 @@ var bindingContext = {
       });
     }
   },
-  confirmSignout: function(data, e) {
+  confirmSignout: function() {
     return window.confirm('真心不吃了么？');
   }
 };
@@ -151,8 +165,9 @@ _.delay(function() {
   alert('5分钟了还没选好。。。你也和小明一样有选择恐惧症吗？');
 }, 5 * 60 * 1000);
 
-window.user = UserViewModel;
+window.user = userVM;
 window.bc = bindingContext;
+window.uim = userInfoModal;
 
 
 });

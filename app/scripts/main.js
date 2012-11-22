@@ -19,7 +19,7 @@ require.config({
   }
 });
 
-require(['app', 'demo'], function(app) {
+require(['app'], function() {
   'use strict';
   // use app here
 });
