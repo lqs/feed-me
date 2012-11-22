@@ -14,7 +14,8 @@ require.config({
     backbone: 'vendor/backbone',
     underscore: 'vendor/underscore',
     // knockout: 'vendor/knockout'
-    knockout: 'vendor/knockout-latest.debug',
+    'knockout-origin': 'vendor/knockout-latest.debug',
+    knockout: 'vendor/knockout.wrapper',
     knockback: 'vendor/knockback'
   }
 });

@@ -7,11 +7,10 @@ define([
     'view-models/order-view-model',
     'view-models/user-view-model',
     'view-models/alert-view-model',
-    'bindings/delay-css',
     'underscore',
     'knockback',
-    'models/user',
-    'backbone'
+    'backbone',
+    'controllers/data-center'
   ], function(
     jQuery,
     Knockout,
@@ -21,11 +20,10 @@ define([
     OrderViewModel,
     UserViewModel,
     alert,
-    BindingDelayCss,
     _,
     kb,
-    User,
-    Backbone
+    Backbone,
+    dataCenter
   ) {
 'use strict';
 
@@ -33,8 +31,7 @@ define([
 Backbone.emulateHTTP = true;
 
 // Init Models
-var user = new User();
-
+var user = dataCenter.get('user');
 
 // Data logic.
 var rests = new RestaurantsViewModel();
@@ -49,7 +46,6 @@ user.on('change:name', function(model, value) {
 });
 
 userVM.nameAbsent.subscribe(function(value) {
-debugger;
   userInfoModal.modal(value ? 'show' : 'hide');
 });
 
@@ -100,7 +96,7 @@ $search.typeahead({
 }).tooltip().on('blur', function() { $search.tooltip('hide'); });
 
 // Take off!!
-userVM.fetch()
+user.fetch()
   .pipe(function() {
     return rests.fetch();
   },function() {
@@ -111,7 +107,6 @@ userVM.fetch()
     bindingContext.loaded(true);
     /* * * DON'T EDIT BELOW THIS LINE * * */
     _.delay(function() {
-      return;
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + 'feedwandou' + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
@@ -135,7 +130,7 @@ var bindingContext = {
   },
   makeOrder: function() {
     if (window.confirm('本单总计 ' + (order.totalPrice() / 100).toFixed(2) + '元，吃不了崔阿姨搞死你哦，确定要下单吗？')) {
-      this.order().save().done(function() {
+      this.order().save(user.get('email')).done(function() {
         alert.message('订单保存成功！');
         this.newOrder();
       }.bind(this)).fail(function(o, msg) {

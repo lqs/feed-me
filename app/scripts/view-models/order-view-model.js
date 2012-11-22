@@ -3,14 +3,12 @@ define([
     'view-models/dish-view-model',
     'underscore',
     'jquery',
-    'view-models/user-view-model',
     'config'
   ], function(
     Knockout,
     DishViewModel,
     _,
     jQuery,
-    UserViewModel,
     config
   ) {
 'use strict';
@@ -46,12 +44,12 @@ var OrderViewModel = function() {
     }
   };
 
-  self.save = function() {
-    return saveTo(config.uri.ORDER);
+  self.save = function(uid) {
+    return saveTo(config.uri.ORDER, uid);
   };
 
-  self.saveDefault = function() {
-    return saveTo(config.uri.DEFAULT);
+  self.saveDefault = function(uid) {
+    return saveTo(config.uri.DEFAULT, uid);
   };
 
   self.toJSON = function() {
@@ -62,14 +60,14 @@ var OrderViewModel = function() {
     };
   };
 
-  var saveTo = function(url) {
+  var saveTo = function(url, uid) {
     var defer = jQuery.Deferred();
     if (!self.dishes().length) {
       defer.reject(self, 'no dish');
       return defer;
     }
     var data = self.toJSON();
-    data.id = UserViewModel.id();
+    data.id = uid;
     jQuery.post(url, { json: JSON.stringify(data)}).then(function() {
       defer.resolve(self);
     }, function(jqXHR) {
