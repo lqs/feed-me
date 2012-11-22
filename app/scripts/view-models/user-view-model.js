@@ -4,7 +4,7 @@ define([
     'config',
     'knockback'
   ], function(
-    Knockout,
+    ko,
     jQuery,
     config,
     kb
@@ -15,14 +15,13 @@ return kb.ViewModel.extend({
   constructor: function() {
     var self = this;
     kb.ViewModel.prototype.constructor.apply(self, arguments);
-    // self.id = self.email;
-    self.online = Knockout.computed(function() {
+    self.online = ko.computed(function() {
       return !!self.email();
     });
-    self.nameAbsent = Knockout.computed(function() {
+    self.nameAbsent = ko.computed(function() {
       return self.online() && !self.name();
     }).extend({ defer: true });
-    self.ready = Knockout.computed(function() {
+    self.ready = ko.computed(function() {
       return !!(self.email() && self.name());
     }).extend({ defer: true });
   },

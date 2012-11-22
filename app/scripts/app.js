@@ -40,7 +40,6 @@ var order = new OrderViewModel();
 var userInfoModal = jQuery('#userinfo');
 var userVM = new UserViewModel(user);
 
-
 user.on('change:name', function(model, value) {
   localStorage.setItem('user-display-name', value);
 });
