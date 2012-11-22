@@ -1,17 +1,20 @@
 define([
-    'knockout',
-    'jquery',
-    'config'
+    'config',
+    'backbone'
   ], function(
-    ko,
-    $,
-    config
+    config,
+    Backbone
   ) {
 'use strict';
+
+var User = Backbone.Model.extend({
+
+});
+
 return function() {
   var user = {
     id: ko.observable(),
-    name: ko.observable() 
+    name: ko.observable()
   };
   ko.subscribable.call(user);
   user.online = ko.computed(function() {

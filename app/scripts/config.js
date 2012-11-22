@@ -12,12 +12,12 @@ define([
     uri: {
       'RESTAURANTS': host + '/api/all',
       'USER': host + '/api/user',
-      'ORDER': host + '/order',
+      'ORDER': host + '/api/order',
       'DEFAULT': host + '/api/default'
     },
 
     buildMenuURI: function(url) {
-      return this.HOST + '/' + url;
+      return this.HOST + '/api/' + url;
     }
   };
 

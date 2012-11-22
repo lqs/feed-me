@@ -8,7 +8,8 @@ define([
     'view-models/user-view-model',
     'view-models/alert-view-model',
     'bindings/delay-css',
-    'underscore'
+    'underscore',
+    'knockback'
   ], function(
     jQuery,
     Knockout,
@@ -19,7 +20,8 @@ define([
     UserViewModel,
     alert,
     BindingDelayCss,
-    _
+    _,
+    kb
   ) {
 'use strict';
 
@@ -89,6 +91,12 @@ UserViewModel.fetch()
   done(function() {
     // bindingContext.needSignIn(true);
     bindingContext.loaded(true);
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    _.delay(function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + 'feedwandou' + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }, 2000);
   });
 
 // rests.fetch();
@@ -140,4 +148,5 @@ _.delay(function() {
 
 window.user = UserViewModel;
 window.bc = bindingContext;
+
 });
