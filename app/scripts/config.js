@@ -5,7 +5,7 @@ define([
 ) {
   'use strict';
 
-  var host = 'http://fan.wandoulabs.com';
+  var host = window.HOST;
 
   return {
     'HOST': host,
@@ -13,7 +13,8 @@ define([
       'RESTAURANTS': host + '/api/all',
       'USER': host + '/api/user',
       'ORDER': host + '/api/order',
-      'DEFAULT': host + '/api/default'
+      'DEFAULT': host + '/api/default',
+      'DESTORY': host + '/api/delorder'
     },
 
     buildMenuURI: function(url) {

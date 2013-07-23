@@ -27,10 +27,10 @@ return kb.ViewModel.extend({
   },
   save: function(name) {
     return jQuery.post(config.uri.USER, {
-      id: this.id(),
+      id: this.email(),
       name: name || this.name()
     }).pipe(function(data) {
-      return this.id(data.email).name(data.name);
+      return this.email(data.email).name(data.name);
     }.bind(this));
   }
 });

@@ -10,8 +10,9 @@ define([
     'underscore',
     'knockback',
     'backbone',
-    'controllers/data-center'
-  ], function(
+    'controllers/data-center',
+    'config'
+], function(
     jQuery,
     Knockout,
     MenuViewModel,
@@ -23,8 +24,9 @@ define([
     _,
     kb,
     Backbone,
-    dataCenter
-  ) {
+    dataCenter,
+    config
+) {
 'use strict';
 
 // Global Configurations
@@ -124,6 +126,7 @@ var bindingContext = {
   alert: alert,
   search: search,
   order: Knockout.observable(order),
+  ordered: Knockout.observableArray(),
   newOrder: function() {
     this.order(order = new OrderViewModel());
   },
@@ -144,6 +147,18 @@ var bindingContext = {
         }
       });
     }
+  },
+  showOrder: function() {
+    $.get(config.uri.ORDER).success(function(data) {
+        data = JSON.parse(data);
+        this.ordered(data.order || []);
+    }.bind(this));
+  },
+  destroyOrder: function() {
+    if (!this.ordered().length) return;
+    $.get(config.uri.DESTORY).fail(function() {
+        alert('刘志达不给力，没有删成功，劳烦您再试一次！');
+    });
   },
   confirmSignout: function() {
     return window.confirm('真心不吃了么？');
