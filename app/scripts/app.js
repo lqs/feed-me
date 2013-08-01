@@ -131,7 +131,7 @@ var bindingContext = {
     this.order(order = new OrderViewModel());
   },
   makeOrder: function() {
-    if (window.confirm('本单总计 ' + (order.totalPrice() / 100).toFixed(2) + '元，吃不了崔阿姨搞死你哦，确定要下单吗？')) {
+    if (window.confirm('本单总计 ' + (order.totalPrice() / 100).toFixed(2) + ' 元，吃不了崔阿姨搞死你哦，确定要下单吗？')) {
       this.order().save(user.get('email')).done(function() {
         alert.message('订单保存成功！');
         this.newOrder();
